@@ -16,3 +16,11 @@ provider "bigip" {
   username = var.bigip-admin
   password = var.bigip-passwd
 }
+
+data "http" "myip" {
+  url = "https://text.ipv4.wtfismyip.com/"
+
+  request_headers = {
+    Accept = "text/plain"
+  }
+}
