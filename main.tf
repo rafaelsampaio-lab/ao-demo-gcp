@@ -16,3 +16,11 @@ provider "bigip" {
   username = var.bigip-admin
   password = var.bigip-passwd
 }
+
+data "http" "terraform-ip" {
+  url = "https://text.wtfismyip.com/"
+
+  request_headers = {
+    Accept = "text/plain"
+  }
+}
