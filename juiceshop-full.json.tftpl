@@ -31,9 +31,6 @@
                     "snat": "auto",
                     "policyWAF": {
                         "use": "${app_name}-waf-policy"
-                    },
-                    "profileDOS": {
-                        "use": "${app_name}-app-dos"
                     },                    
                     "securityLogProfiles": [
                         {
@@ -134,7 +131,7 @@
                     "label": "${app_name} Network Security",
                     "application": {
                         "botDefense": {
-                            "mode": "off"
+                            "mode": "always"
                         },
                         "botSignatures": {
                             "checkingEnabled": true
