@@ -18,7 +18,7 @@ provider "bigip" {
 }
 
 data "http" "terraform-ip" {
-  url = "https://text.wtfismyip.com/"
+  url = "https://text.ipv4.wtfismyip.com/"
 
   request_headers = {
     Accept = "text/plain"

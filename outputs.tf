@@ -3,5 +3,5 @@ output "app-url" {
 }
 
 output "terraform-ip" {
-  value = "${chomp(data.http.terraform-ip.response_body)}"
+  value = chomp(data.http.terraform-ip.response_body)
 }

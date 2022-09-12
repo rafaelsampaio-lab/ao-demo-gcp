@@ -14,8 +14,9 @@
 
                 "${app_name}-https": {
                     "class": "Service_HTTPS",
-                    "remark": "${app_name}-HTTPS-service",
+                    "remark": "${app_name} Protected HTTPS Service",
                     "serverTLS": "${app_name}-tls",
+                    "redirect80": "true",
                     "pool": "${app_name}-pool-sd",
                     "allowVlans": [
                         "external"
@@ -64,13 +65,15 @@
 
                 "${app_name}-certificate": {
                     "class": "Certificate",
-                    "remark": "${app_name}-certificate",
+                    "remark": "${app_name} Certificate",
+                    "label": "${app_name}",
                     "certificate": "${app_certificate}",
                     "privateKey": "${app_private_key}"
                 },
 
                 "${app_name}-pool-sd": {
                     "class": "Pool",
+                    "remark": "${app_name} GCP Service Discovery",
                     "monitors": [
                         "http"
                     ],
@@ -124,7 +127,7 @@
                     "class": "WAF_Policy",
                     "remark": "${app_name}-WAF-policy",
                     "label": "${app_name}-WAF-policy",
-                    "url": "https://raw.githubusercontent.com/rafaelsampaio/ao-demo/main/3-as3/waf-policy.json",
+                    "url": "${app_waf}",
                     "ignoreChanges": true
                 },
 
@@ -157,13 +160,7 @@
                             "detectionMode": "learn-only",
                             "mitigationMode": "none"
                         },
-                        "vectors": [
-                            {
-                                "state": "detect-only",
-                                "thresholdMode": "fully-automatic",
-                                "type": "tcp-half-open"
-                            }
-                        ]
+                        "vectors": ${jsonencode(network_dos_vectors)}
                     }
                 }
             }
