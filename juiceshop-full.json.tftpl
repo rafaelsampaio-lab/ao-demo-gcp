@@ -1,17 +1,16 @@
 {
     "class": "AS3",
+    "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/master/schema/latest/as3-schema.json",
     "action": "deploy",
     "logLevel": "debug",
     "persist": true,
     "declaration": {
         "class": "ADC",
         "schemaVersion": "3.39.0",
-        "$schema": "https://raw.githubusercontent.com/F5Networks/f5-appsvcs-extension/master/schema/latest/as3-schema.json",
         "${app_tenant}": {
             "class": "Tenant",
             "${app_name}": {
                 "class": "Application",
-
                 "${app_name}-https": {
                     "class": "Service_HTTPS",
                     "remark": "${app_name} Protected HTTPS Service",
