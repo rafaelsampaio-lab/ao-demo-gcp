@@ -36,10 +36,10 @@ locals {
       state         = "detect-only"
       thresholdMode = "fully-automatic"
       badActorSettings = {
-        enabled = "true"
+        enabled = true
       }
       autoDenylistSettings = {
-        enabled = "true"
+        enabled = true
       }
     }
 
