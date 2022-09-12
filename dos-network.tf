@@ -14,7 +14,7 @@ locals {
     "non-tcp-connection",
     "opt-present-with-illegal-len",
     #"sweep",
-    "tcp-half-open",
+    #"tcp-half-open",
     "tcp-opt-overruns-tcp-hdr",
     "tcp-psh-flood",
     "tcp-rst-flood",
