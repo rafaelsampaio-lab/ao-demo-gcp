@@ -1,7 +1,7 @@
 {
    "$schema": "https://clouddocs.f5.com/products/waf-declarative-policy/_downloads/1ea282907775c0a30240d3d5da4c2708/schema_v16_1.json",
    "policy": {
-      "name": "juiceshop",
+      "name": "juiceshop-waf-policy",
       "description": "Juice Shop WAF Policy",
       "template": {
          "name": "POLICY_TEMPLATE_RAPID_DEPLOYMENT"
@@ -12,7 +12,19 @@
       "enforcementMode": "blocking",
       "applicationLanguage": "utf-8",
       "protocolIndependent": false,
-      "caseInsensitive": false,
+      "caseInsensitive": true,
+      "general" : {
+         "trustXff" : true
+      },
+      "policy-builder" : {
+         "autoApply" : {
+            "frequency" : "real-time"
+         },
+         "learningMode" : "automatic"
+      },
+      "policy-builder-server-technologies" : {
+         "enableServerTechnologiesDetection" : true
+      },
       "blocking-settings": {
          "evasions": [
             {
@@ -54,10 +66,6 @@
                "alarm": true,
                "block": true,
                "name": "VIOL_ASM_COOKIE_HIJACKING"
-            },
-            {
-               "block": false,
-               "name": "VIOL_DATA_GUARD"
             },
             {
                "alarm": true,
@@ -185,74 +193,62 @@
             {
                "alarm": false,
                "block": false,
-               "category": "Spam Sources",
-               "description": "The Spam Sources category includes Tunneling Spam messages through proxy, anomalous SMTP activities, and Forum Spam activities."
+               "category": "Spam Sources"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Cloud-based Services",
-               "description": "The Cloud-based Services category includes IP addresses and networks that are used by cloud providers."
+               "category": "Cloud-based Services"
             },
             {
                "alarm": false,
                "block": false,
-               "category": "Mobile Threats",
-               "description": "The Mobile Threats category includes IP addresses of malicious and unwanted mobile applications."
+               "category": "Mobile Threats"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Tor Proxies",
-               "description": "The Tor Proxies category includes IP addresses acting as exit nodes for the Tor Network. Exit nodes are the last point along the proxy chain and make a direct connection to the originator\u00e2\u0080\u0099s intended destination."
+               "category": "Tor Proxies"
             },
             {
                "alarm": false,
                "block": false,
-               "category": "Windows Exploits",
-               "description": "The Windows Exploits category includes active IP address offering or distributing malware, shell code, rootkits, worms, and viruses."
+               "category": "Windows Exploits"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Web Attacks",
-               "description": "The Web Attacks category includes cross site scripting, iFrame injection, SQL injection, cross domain injection, and domain password brute force."
+               "category": "Web Attacks"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "BotNets",
-               "description": "The Botnets category includes Botnet C&C channels and an infected zombie machine controlled by a Bot master."
+               "category": "BotNets"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Scanners",
-               "description": "The Scanners category includes all reconnaissance, such as probes, host scan, domain scan, and password brute force."
+               "category": "Scanners"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Denial of Service",
-               "description": "The Denial of Services category includes DOS, DDOS, anomalous syn flood, and anomalous traffic detection."
+               "category": "Denial of Service"
             },
             {
                "alarm": false,
                "block": false,
-               "category": "Infected Sources",
-               "description": "The Infected Sources category includes IP addresses currently known to be infected with malware, and IP addresses with an average low Reputation Index score. Enabling this category prevents access from sources identified to contact malware distribution points."
+               "category": "Infected Sources"
             },
             {
                "alarm": false,
                "block": false,
-               "category": "Phishing Proxies",
-               "description": "The Phishing Proxies category includes IP addresses hosting phishing sites, and other kind of fraud activities such as Ad Click Fraud and Gaming fraud."
+               "category": "Phishing Proxies"
             },
             {
                "alarm": true,
                "block": false,
-               "category": "Anonymous Proxy",
-               "description": "The Anonymous Proxy category includes IP addresses that provide proxy and anonymizing services."
+               "category": "Anonymous Proxy"
             }
          ]
       },
@@ -268,7 +264,7 @@
             "usernameParameterName": "email",
             "passwordParameterName": "password",
             "url": {
-               "method": "POST",
+               "method": "*",
                "name": "/#/login",
                "protocol": "http",
                "type": "explicit"
@@ -312,31 +308,68 @@
          }
       ],
       "session-tracking": {
-         "delayBlocking": {},
-         "sessionTrackingConfiguration": {
-            "enableTrackingSessionHijackingByDeviceId": true,
-            "enableSessionAwareness": true,
-            "userNameSource": "all-login-pages",
-            "detectUsernameFromLoginPages": [
+         "blockAll" : {
+            "checkDeviceIdThreshold" : true,
+            "checkIpThreshold" : true,
+            "checkPeriod" : true,
+            "checkSessionThreshold" : true,
+            "checkUsernameThreshold" : true,
+            "deviceIdThreshold" : 30,
+            "ipThreshold" : 60,
+            "period" : 600,
+            "sessionThreshold" : 20,
+            "urlBlockingMode" : "block-all-urls",
+            "usernameThreshold" : 20
+         },
+         "delayBlocking" : {
+            "checkDeviceIdThreshold" : false,
+            "checkIpThreshold" : false,
+            "checkSessionThreshold" : false,
+            "checkUsernameThreshold" : false,
+            "period" : 600,
+            "violations" : [
                {
-                  "loginPage": {
-                     "authenticationType": "form",
-                     "usernameParameterName": "email",
-                     "passwordParameterName": "password",
-                     "url": {
-                        "method": "POST",
-                        "name": "/#/login",
-                        "protocol": "http",
-                        "type": "explicit"
-                     },
-                     "accessValidation": {
-                        "responseHttpStatus": "200",
-                        "responseContains": "token",
-                        "responseOmits": "Invalid"
-                     }
-                  }
+                  "name" : "VIOL_GEOLOCATION"
+               },
+               {
+                  "name" : "VIOL_ATTACK_SIGNATURE"
+               },
+               {
+                  "name" : "VIOL_GWT_MALFORMED"
+               },
+               {
+                  "name" : "VIOL_FILE_UPLOAD"
+               },
+               {
+                  "name" : "VIOL_PARAMETER_VALUE_BASE64"
+               },
+               {
+                  "name" : "VIOL_GWT_FORMAT"
+               },
+               {
+                  "name" : "VIOL_REDIRECT"
                }
             ]
+         },
+         "logAllRequests" : {
+            "checkDeviceIdThreshold" : true,
+            "checkIpThreshold" : true,
+            "checkSessionThreshold" : true,
+            "checkUsernameThreshold" : true,
+            "deviceIdThreshold" : 7,
+            "ipThreshold" : 15,
+            "period" : 600,
+            "sessionThreshold" : 5,
+            "usernameThreshold" : 5
+         },
+         "sessionTrackingConfiguration" : {
+            "enableSessionAwareness" : true,
+            "enableTrackingSessionHijackingByDeviceId" : true,
+            "userNameSource" : "all-login-pages"
+         },
+         "violationDetectionActions" : {
+            "trackViolationsAndPerformActions" : true,
+            "violationDetectionPeriod" : 900
          }
       },
       "signature-sets": [
