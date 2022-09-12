@@ -9,7 +9,7 @@
       "type": "security",
       "softwareVersion": "16.1.3",
       "enablePassiveMode": false,
-      "enforcementMode": "blocking",
+      "enforcementMode": "transparent",
       "applicationLanguage": "utf-8",
       "protocolIndependent": false,
       "caseInsensitive": true,
@@ -63,49 +63,50 @@
          ],
          "violations": [
             {
+               "name": "VIOL_ASM_COOKIE_HIJACKING",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_ASM_COOKIE_HIJACKING"
+               "block": true
             },
             {
+               "name": "VIOL_FILETYPE",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_FILETYPE"
+               "block": true
             },
             {
+               "name": "VIOL_LOGIN_URL_BYPASSED",
                "alarm": true,
                "block": true,
-               "name": "VIOL_LOGIN_URL_BYPASSED"
+               "learn": true
             },
             {
+               "name": "VIOL_PARAMETER_NAME_METACHAR",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_PARAMETER_NAME_METACHAR"
+               "block": true
             },
             {
+               "name": "VIOL_PARAMETER_VALUE_METACHAR",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_PARAMETER_VALUE_METACHAR"
+               "block": true
             },
             {
+               "name": "VIOL_POST_DATA_LENGTH",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_POST_DATA_LENGTH"
+               "block": true
             },
             {
+               "name": "VIOL_QUERY_STRING_LENGTH",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_QUERY_STRING_LENGTH"
+               "block": true
             },
             {
+               "name": "VIOL_REQUEST_LENGTH",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_REQUEST_LENGTH"
+               "block": true
             },
             {
+               "name": "VIOL_URL_LENGTH",
                "alarm": true,
-               "block": true,
-               "name": "VIOL_URL_LENGTH"
+               "block": true
             }
          ]
       },

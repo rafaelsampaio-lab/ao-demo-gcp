@@ -15,7 +15,6 @@
                     "class": "Service_HTTPS",
                     "remark": "${app_name} Protected HTTPS Service",
                     "serverTLS": "${app_name}-tls",
-                    "redirect80": true,
                     "pool": "${app_name}-pool-sd",
                     "allowVlans": [
                         "external"
@@ -44,7 +43,7 @@
                             "bigip": "/Common/local-bot-defense"
                         },
                         {
-                            "bigip": "/Common/Log illegal requests"
+                            "bigip": "/Common/Log all requests"
                         }
                     ]
                 },
@@ -124,16 +123,15 @@
 
                 "${app_name}-waf-policy": {
                     "class": "WAF_Policy",
-                    "remark": "${app_name}-WAF-policy",
-                    "label": "${app_name}-WAF-policy",
-                    "url": "${app_waf}",
-                    "ignoreChanges": true
+                    "remark": "${app_name} WAF policy",
+                    "label": "${app_name} WAF policy",
+                    "url": "${app_waf}"
                 },
 
                 "${app_name}-app-dos": {
                     "class": "DOS_Profile",
-                    "remark": "${app_name}-app-dos",
-                    "label": "${app_name}-app-dos",
+                    "remark": "${app_name} Network Security",
+                    "label": "${app_name} Network Security",
                     "application": {
                         "botDefense": {
                             "mode": "off"
